@@ -1,0 +1,56 @@
+import os, sys, time, datetime
+from stat import S_ISREG, ST_CTIME, ST_MTIME, ST_MODE
+
+def listdirs(folder):  
+  return [
+    d for d in (os.path.join(folder, d1) for d1 in os.listdir(folder))
+    if os.path.isdir(d)
+]
+
+folder = "D:\CCM6\A1"
+lfolder = listdirs(folder)
+
+p=0
+dict = {}
+for afolder in lfolder:
+  p+=1
+  """"fileList_%s" %str(p)"""
+  dirpath = afolder
+  
+
+ 
+  entries = (os.path.join(dirpath, fn) for fn in os.listdir(dirpath))
+  entries = ((os.stat(path), path) for path in entries)
+
+
+  entries = ((stat[ST_MTIME], path)
+             for stat, path in entries if S_ISREG(stat[ST_MODE]))
+
+  dict[afolder] = []
+  for cdate, path in sorted(entries):
+        dict[afolder].append(os.path.basename(path))
+
+  if p%2 == 0:
+      dict[afolder] = dict[afolder][::-1]
+
+#enddict
+      
+for f, flist in dict.items():
+  os.chdir(f)
+  allfiles = flist
+  for filename in allfiles:
+    if not os.path.isfile(f + '/' + filename):
+      continue
+    iterator = 1
+    temp_name = str(iterator).zfill(2) + '.png'
+
+    while filename != temp_name:
+      if not os.path.exists(temp_name):
+        os.rename(filename, temp_name)
+        filename = temp_name
+      else:
+        iterator+=1
+        temp_name = str(iterator).zfill(2) + '.png'
+                      
+                          
+
