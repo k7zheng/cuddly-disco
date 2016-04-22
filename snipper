@@ -1,6 +1,10 @@
-
+import os
 from os import listdir
-files = listdir("D:\CCM6\A1") #get list of vid files in video
+files = listdir("D:\CCM6\C1") #get list of vid files in video
+print(files)
+
+
+
 
 num = 0
 for file in files:
@@ -8,13 +12,16 @@ for file in files:
 	n = str(num)
 	print(n)
 	
-	newFolder = r'D:/CCM6/A1/{0}'.format(n) #makes a folder to store all clips
+	fileLocation = str(n)
+	newFolder = r'D:/CCM6/C1/images/{0}'.format(fileLocation) #makes a folder to store all clips
+	
 	if not os.path.exists(newFolder):
 		os.makedirs(newFolder)
+	
 		
 #-----------actual ffmpeg part to get pics-----------------------------
 	import os, subprocess, re #re isn't really ness, used in escape.re('path')
 	os.environ['COMSPEC'] = 'C:/Windows/system32/cmd.exe' #not really ness
-	args = "ffmpeg -i D:/CCM6/A1/{0}.avi -r 0.05 D:/CCM6/A1/{1}/%02d.png".format(n,n)
+	args = "ffmpeg -i D:/CCM6/C1/{0}.avi -r 0.05 D:/CCM6/C1/images/{0}/%02d.png".format(n)
 	subprocess.call(args) #slashes can't be \ needs to be / || can't do ", shell=True" on end
 #---end of ffmpeg part------------------------------------------------"""
